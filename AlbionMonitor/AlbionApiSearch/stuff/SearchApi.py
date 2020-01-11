@@ -2,7 +2,7 @@ import json
 import requests
 
 
-class SearchInfoGuild:
+class _SearchInfoGuild:
     def __init__(self, guild_id, guild_name, alliance_id):
         self.id = guild_id
         self.name = guild_name
@@ -13,7 +13,7 @@ class SearchInfoGuild:
         pass
 
 
-class SearchInfoPlayer:
+class _SearchInfoPlayer:
     def __init__(self, player_id, player_name):
         self.id = player_id
         self.name = player_name
@@ -27,11 +27,11 @@ class Search:
     def _get_object_list(self):
         # Достать данные игроков
         def _get_player_args(resp_object):
-            return SearchInfoPlayer(resp_object['Id'], resp_object['Name'])
+            return _SearchInfoPlayer(resp_object['Id'], resp_object['Name'])
 
         # Достать данные гильдий
         def _get_guild_args(resp_object):
-            return SearchInfoGuild(resp_object['Id'], resp_object['Name'], resp_object['AllianceId'])
+            return _SearchInfoGuild(resp_object['Id'], resp_object['Name'], resp_object['AllianceId'])
 
         api_response = requests.session().get(f"https://gameinfo.albiononline.com/api/gameinfo/search?q={self.request}")
         try:
