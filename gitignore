@@ -1,6 +1,0 @@
-*.json
-*.idea
-.git
-*/__pycache__/*
-*__pycache__
-venv

@@ -38,14 +38,14 @@ class AlbionApiSearchView(TemplateView):
     template_name = 'base.html'
 
     #  Прилепить историю поиска
-    def get(self, request, *args, **kwargs):
-        req = request.GET.get("req")
+    def get_context_data(self, **kwargs):
+        context = super(AlbionApiSearchView, self).get_context_data(**kwargs)
+        req = self.request.GET.get("req")
         if req is not None:
             rec_history.history = req
-            context = {'req_obj': SearchApi.Search(req), 'recent_searches': rec_history.history}
-            return render(request, 'base.html', context)
-        else:
-            return render(request, 'base.html')
+            context["req_obj"] = SearchApi.Search(req)
+            context["recent_searches"] = rec_history.history
+        return context
 
 
 class PlayerView(TemplateView):
