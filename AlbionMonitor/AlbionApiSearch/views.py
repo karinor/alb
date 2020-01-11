@@ -35,7 +35,7 @@ rec_history = RecentSearches()
 
 # Create your views here.
 class AlbionApiSearchView(TemplateView):
-    template_name = 'base.html'
+    template_name = 'index.html'
 
     #  Прилепить историю поиска
     def get_context_data(self, **kwargs):
@@ -51,10 +51,12 @@ class AlbionApiSearchView(TemplateView):
 class PlayerView(TemplateView):
     template_name = 'player.html'
 
-    def get(self, request, *args, **kwargs):
-        if len(kwargs) == 1:
-            context = {'player': KillboardApiParser.Player(kwargs['id'])}
-            return render(request, 'player.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(PlayerView, self).get_context_data(**kwargs)
+        id = self.kwargs.get("id")
+        if id:
+            context["player"] = KillboardApiParser.Player(id)
+        return context
 
 
 class GuildView(TemplateView):
